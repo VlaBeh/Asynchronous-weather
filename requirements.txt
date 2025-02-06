@@ -3,3 +3,4 @@ celery
 redis
 uvicorn
 requests
+python-dotenv~=1.0.1
