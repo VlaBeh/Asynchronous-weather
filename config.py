@@ -1,7 +1,9 @@
 import os
-from dotenv import load_dotenv
-load_dotenv()
 
-API_KEYS = os.getenv("OPENWEATHER_API_KEYS").split(",")
-REDIS_URL = "redis://localhost:6379"
-WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather?q={}&appid={}"
+API_KEYS = "b64ec4a3fab3ca0b27569f57f625d646"
+BASE_API_URL = "https://api.weatherapi.com/v1/current.json"
+REDIS_BROKER = os.getenv("REDIS_BROKER", "redis://redis:6379/0")
+RESULT_BACKEND = os.getenv("RESULT_BACKEND", "redis://redis:6379/1")
+CELERY_BROKER_URL = "redis://redis:6379/0"
+
+LOG_FILE = "weather_service.log"
