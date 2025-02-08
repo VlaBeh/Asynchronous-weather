@@ -1,7 +1,8 @@
 from fuzzywuzzy import process
-from transliterate import translit
 import requests
 from config import API_KEYS
+from transliterate import translit
+from transliterate.exceptions import LanguageDetectionError
 
 
 def load_cities(filename="cities.txt"):
@@ -19,9 +20,13 @@ def normalize_city(city):
 
 
 def transliterate_city(city):
-    transliterated = translit(city, reversed=True)
-    match, score = process.extractOne(transliterated, KNOWN_CITIES)
-    return match if score > 80 else transliterated
+    try:
+        if city.isascii():
+            return city
+        transliterated = translit(city, reversed=True)
+        return transliterated
+    except LanguageDetectionError:
+        return city
 
 
 def get_city_coordinates(city):
@@ -52,5 +57,3 @@ def process_cities(cities):
             processed.append({"name": norm_city, "coordinates": coords})
 
     return processed
-
-
