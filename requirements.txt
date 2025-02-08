@@ -1,6 +1,12 @@
-fastapi~=0.115.8
+fastapi
+uvicorn
 celery
 redis
-uvicorn
+httpx
+pydantic
+transliterate
+fuzzywuzzy
+python-Levenshtein
 requests
-python-dotenv~=1.0.1
+langdetect
+loguru
