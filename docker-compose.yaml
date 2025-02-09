@@ -14,12 +14,12 @@ services:
     container_name: fastapi
     ports:
       - "8000:8000"
-    volumes:
-      - .:/app
     depends_on:
       - redis
     networks:
       - mynetwork
+    volumes:
+      - ./weather_data:/app/weather_data
 
   celery:
     build:
@@ -28,30 +28,8 @@ services:
     container_name: celery
     depends_on:
       - redis
-    networks:
-      - mynetwork
-
-  celery-beat:
-    build:
-      context: .
-      dockerfile: Dockerfile.celery
-    container_name: celery-beat
-    command: celery -A tasks beat --loglevel=info
-    depends_on:
-      - redis
-    networks:
-      - mynetwork
-
-  flower:
-    image: mher/flower
-    container_name: flower
-    environment:
-      - FLOWER_PORT=5555
-    ports:
-      - "5555:5555"
-    command: ["celery", "-A", "tasks", "flower"]
-    depends_on:
-      - redis
+    volumes:
+      - ./weather_data:/app/weather_data
     networks:
       - mynetwork
 

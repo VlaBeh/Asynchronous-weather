@@ -1,3 +1,5 @@
+import logging
+
 from celery import Celery
 from city_utils import process_cities
 from weather_utils import get_weather_by_coordinates
@@ -37,7 +39,12 @@ def process_weather_task(cities):
 
 
 def save_results(region, data):
-    """Збереження результатів у JSON"""
     os.makedirs(f"weather_data/{region}", exist_ok=True)
-    with open(f"weather_data/{region}/task_results.json", "w", encoding="utf-8") as file:
+    file_path = f"weather_data/{region}/task_results.json"
+
+    with open(file_path, "w", encoding="utf-8") as file:
         json.dump(data, file, indent=2, ensure_ascii=False)
+        file.flush()  # Примусовий запис у файл
+
+    logging.info(f"Saved new results to: {file_path}")
+
