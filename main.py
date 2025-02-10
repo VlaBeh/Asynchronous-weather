@@ -38,4 +38,4 @@ async def get_results(region: str):
         with open(file_path, "r", encoding="utf-8") as file:
             return {"status": "completed", "results": json.load(file)}
     except FileNotFoundError:
-        return {"status": "not_found", "message": "Дані не знайдені"}
+        return {"status": "not_found", "message": "Data not found"}

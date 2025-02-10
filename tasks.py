@@ -1,15 +1,13 @@
 import logging
 from celery import Celery
-from city_utils import process_cities
-from weather_utils import get_weather_by_coordinates
+from Utils.city_utils import process_cities
+from Utils.weather_utils import get_weather_by_coordinates
 import json
 import os
-from config import REDIS_BROKER, RESULT_BACKEND
-from loger_config import get_logger
+from Settings.config import REDIS_BROKER, RESULT_BACKEND
+from Settings.loger_config import logger
 
 celery_app = Celery("tasks", broker=REDIS_BROKER, backend=RESULT_BACKEND)
-
-logger = get_logger()
 
 
 @celery_app.task
