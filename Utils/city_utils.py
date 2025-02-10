@@ -1,6 +1,6 @@
 from fuzzywuzzy import process
 import requests
-from config import API_KEYS
+from Settings.config import API_KEYS
 from transliterate import translit
 from transliterate.exceptions import LanguageDetectionError
 

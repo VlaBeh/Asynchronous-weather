@@ -1,5 +1,5 @@
 import requests
-from config import API_KEYS
+from Settings.config import API_KEYS
 
 
 def get_city_coordinates(city):
