@@ -1,0 +1,37 @@
+services:
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - mynetwork
+
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fastapi
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+    networks:
+      - mynetwork
+    volumes:
+      - ./weather_data:/app/weather_data
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile.celery
+    container_name: celery
+    depends_on:
+      - redis
+    volumes:
+      - ./weather_data:/app/weather_data
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:

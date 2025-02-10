@@ -1,0 +1,13 @@
+fastapi~=0.115.8
+uvicorn
+celery~=5.4.0
+redis
+httpx
+pydantic~=2.10.6
+transliterate~=1.10.2
+fuzzywuzzy~=0.18.0
+python-Levenshtein
+requests~=2.32.3
+langdetect
+loguru~=0.7.3
+python-dotenv~=1.0.1
