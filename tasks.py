@@ -1,21 +1,20 @@
 import logging
-
 from celery import Celery
 from city_utils import process_cities
 from weather_utils import get_weather_by_coordinates
 import json
 import os
 from config import REDIS_BROKER, RESULT_BACKEND
-from loguru import logger
+from loger_config import get_logger
 
 celery_app = Celery("tasks", broker=REDIS_BROKER, backend=RESULT_BACKEND)
 
-logger.add("weather_service.log", rotation="1 MB", level="INFO")
+logger = get_logger()
 
 
 @celery_app.task
 def process_weather_task(cities):
-    """Асинхронна обробка міст"""
+    """Asynchronous processing of cities"""
     results = {"Europe": [], "America": [], "Asia": []}
 
     for city in process_cities(cities):
@@ -29,7 +28,7 @@ def process_weather_task(cities):
                 "description": weather["description"]
             })
         else:
-            logger.warning(f"Не вдалося отримати погоду для {city['name']}")
+            logger.warning(f"Couldn't get weather for city: {city['name']}")
 
     for region, data in results.items():
         if data:
@@ -44,7 +43,7 @@ def save_results(region, data):
 
     with open(file_path, "w", encoding="utf-8") as file:
         json.dump(data, file, indent=2, ensure_ascii=False)
-        file.flush()  # Примусовий запис у файл
+        file.flush()
 
     logging.info(f"Saved new results to: {file_path}")
 

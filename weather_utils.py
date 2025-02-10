@@ -7,7 +7,7 @@ def get_city_coordinates(city):
     response = requests.get(url)
 
     if response.status_code != 200:
-        return None
+        return response.status_code
 
     data = response.json()
     lat = data.get("coord", {}).get("lat")
@@ -20,7 +20,7 @@ def get_weather_by_coordinates(lat, lon):
     response = requests.get(url)
 
     if response.status_code != 200:
-        return None
+        return response.status_code
 
     data = response.json()
     temp_kelvin = data.get("main", {}).get("temp")
@@ -33,7 +33,6 @@ def get_weather_by_coordinates(lat, lon):
             "description": description,
             "region": determine_region_from_timezone(timezone)
         }
-    return None
 
 
 def determine_region_from_timezone(timezone):

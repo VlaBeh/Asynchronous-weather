@@ -30,12 +30,12 @@ def transliterate_city(city):
 
 
 def get_city_coordinates(city):
-    """Отримання координат міста через API"""
+    """Get city by API"""
     url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEYS}"
     response = requests.get(url)
 
     if response.status_code != 200:
-        return None
+        return response.status_code
 
     data = response.json()
     return {
